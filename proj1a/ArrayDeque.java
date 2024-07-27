@@ -10,19 +10,19 @@ public class ArrayDeque<T> {
         data = (T[]) new Object[capacity];
         size = 0;
         head = 0;
-        tail = -1;
+        tail = capacity - 1;
     }
 
-    public ArrayDeque(ArrayDeque<T> other) {
-        size = other.size;
-        capacity = (size / capacity + 1) * capacity;
-        data = (T[]) new Object[capacity];
-        for (int i = 0; i < size; i++) {
-            data[i] = other.get(i);
-        }
-        head = 0;
-        tail = size - 1;
-    }
+//    public ArrayDeque(ArrayDeque<T> other) {
+//        size = other.size;
+//        capacity = (size / capacity + 1) * capacity;
+//        data = (T[]) new Object[capacity];
+//        for (int i = 0; i < size; i++) {
+//            data[i] = other.get(i);
+//        }
+//        head = 0;
+//        tail = size - 1;
+//    }
 
     public boolean isEmpty() {
         return size == 0;
@@ -40,8 +40,6 @@ public class ArrayDeque<T> {
             data[i] = null;
         }
         data = newData;
-        head = 0;
-        tail = size - 1;
     }
 
     public void addFirst(T value) {
@@ -49,7 +47,9 @@ public class ArrayDeque<T> {
             resize();
         }
         head -= 1;
-        if (head < 0) head = capacity - 1;
+        if (head < 0) {
+            head = capacity - 1;
+        }
         data[head] = value;
         size += 1;
     }
@@ -59,13 +59,17 @@ public class ArrayDeque<T> {
             resize();
         }
         tail += 1;
-        if (tail >= capacity) tail = 0;
+        if (tail >= capacity) {
+            tail = 0;
+        }
         data[tail] = value;
         size += 1;
     }
 
     public T removeFirst() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         T value = data[head];
         data[head] = null;
         head += 1;

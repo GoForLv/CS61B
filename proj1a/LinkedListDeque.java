@@ -25,11 +25,11 @@ public class LinkedListDeque<T> {
         size = 0;
     }
 
-    public LinkedListDeque(LinkedListDeque<T> other) {
-        for (int i = 0; i < other.size; i++) {
-            addLast(other.get(i));
-        }
-    }
+//    public LinkedListDeque(LinkedListDeque<T> other) {
+//        for (int i = 0; i < other.size; i++) {
+//            addLast(other.get(i));
+//        }
+//    }
 
     public void addFirst(T val) {
         Node<T> newNode = new Node<>(val, head, head.next);
@@ -63,7 +63,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (isEmpty()) { return null; }
+        if (isEmpty()) {
+            return null;
+        }
         Node<T> p = head.next;
         p.next.prev = head;
         head.next = p.next;
@@ -72,7 +74,9 @@ public class LinkedListDeque<T> {
     }
 
     public T removeLast() {
-        if (isEmpty()) { return null; }
+        if (isEmpty()) {
+            return null;
+        }
         Node<T> p = tail.prev;
         p.prev.next = tail;
         tail.prev = p.prev;
@@ -81,7 +85,9 @@ public class LinkedListDeque<T> {
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size) { return null; }
+        if (index < 0 || index >= size) {
+            return null;
+        }
         Node<T> p = head.next;
         while (index-- > 0) {
             p = p.next;
@@ -90,12 +96,16 @@ public class LinkedListDeque<T> {
     }
 
     public T getRecursive(int index) {
-        if (index < 0 || index >= size) { return null; }
+        if (index < 0 || index >= size) {
+            return null;
+        }
         return getRecursive(index, head.next);
     }
 
     private T getRecursive(int index, Node<T> node) {
-        if (index == 0) { return node.val; }
+        if (index == 0) {
+            return node.val;
+        }
         return getRecursive(index - 1, node.next);
     }
 }
