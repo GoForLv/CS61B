@@ -40,6 +40,8 @@ public class ArrayDeque<T> {
             data[i] = null;
         }
         data = newData;
+        head = 0;
+        tail = capacity - 1;
     }
 
     public void addFirst(T value) {
@@ -77,9 +79,9 @@ public class ArrayDeque<T> {
             head = 0;
         }
         size -= 1;
-        if (size >= 16 && size * LFACTOR < capacity) {
-            capacity /= RFACTOR;
-        }
+//        if (size >= 16 && size * LFACTOR < capacity) {
+//            capacity /= RFACTOR;
+//        }
         return value;
     }
 
@@ -94,9 +96,9 @@ public class ArrayDeque<T> {
             tail = capacity - 1;
         }
         size -= 1;
-        if (size >= 16 && size * LFACTOR < capacity) {
-            capacity /= RFACTOR;
-        }
+//        if (size >= 16 && size * LFACTOR < capacity) {
+//            capacity /= RFACTOR;
+//        }
         return value;
     }
 
