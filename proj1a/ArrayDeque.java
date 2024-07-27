@@ -2,15 +2,14 @@ public class ArrayDeque<T> {
     private int size;
     private int capacity = 8;
     private T[] data;
-    private static int RFACTOR = 2;
-    private static int LFACTOR = 4;
+    private static final int RFACTOR = 2;
     private int head, tail;
 
     public ArrayDeque() {
         data = (T[]) new Object[capacity];
         size = 0;
         head = 0;
-        tail = capacity - 1;
+        tail = 0;
     }
 
 //    public ArrayDeque(ArrayDeque<T> other) {
@@ -32,73 +31,58 @@ public class ArrayDeque<T> {
         return size;
     }
 
-    private void resize() {
-        capacity *= RFACTOR;
+    private void resize(int newCapacity) {
+        capacity = newCapacity;
         T[] newData = (T[]) new Object[capacity];
-        for (int i = 0; i < size; i++) {
-            newData[i] = data[i];
-            data[i] = null;
+        for (int i = 0 ; i < size ; i++) {
+            newData[i] = get(i);
         }
         data = newData;
         head = 0;
-        tail = capacity - 1;
+        tail = size;
     }
 
     public void addFirst(T value) {
         if (size == capacity) {
-            resize();
+            resize(capacity * 2);
         }
-        head -= 1;
-        if (head < 0) {
-            head = capacity - 1;
-        }
+        head = (head - 1 + capacity) % capacity;
         data[head] = value;
         size += 1;
     }
 
     public void addLast(T value) {
         if (size == capacity) {
-            resize();
-        }
-        tail += 1;
-        if (tail >= capacity) {
-            tail = 0;
+            resize(capacity * 2);
         }
         data[tail] = value;
+        tail = (tail + 1) % capacity;
         size += 1;
     }
 
     public T removeFirst() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
         T value = data[head];
-        data[head] = null;
-        head += 1;
-        if (head >= capacity) {
-            head = 0;
-        }
+        head = (head + 1) % capacity;
         size -= 1;
-//        if (size >= 16 && size * LFACTOR < capacity) {
-//            capacity /= RFACTOR;
-//        }
+        if (size >= 16 && size <= capacity / 4) {
+            resize(capacity / RFACTOR);
+        }
         return value;
     }
 
     public T removeLast() {
-        if (size == 0) {
+        if (isEmpty()) {
             return null;
         }
+        tail = (tail - 1 + capacity) % capacity;
         T value = data[tail];
-        data[tail] = null;
-        tail -= 1;
-        if (tail < 0) {
-            tail = capacity - 1;
-        }
         size -= 1;
-//        if (size >= 16 && size * LFACTOR < capacity) {
-//            capacity /= RFACTOR;
-//        }
+        if (size >= 16 && size <= capacity / 4) {
+            resize(capacity / RFACTOR);
+        }
         return value;
     }
 
@@ -110,13 +94,8 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        int cur = head;
         for (int i = 0; i < size; i++) {
-            System.out.print(data[cur] + " ");
-            cur += 1;
-            if (cur >= capacity) {
-                cur = 0;
-            }
+            System.out.print(get(i) + " ");
         }
         System.out.println();
     }
