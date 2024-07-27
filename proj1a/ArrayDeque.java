@@ -3,6 +3,7 @@ public class ArrayDeque<T> {
     private int capacity = 8;
     private T[] data;
     private static int RFACTOR = 2;
+    private static int LFACTOR = 4;
     private int head, tail;
 
     public ArrayDeque() {
@@ -23,9 +24,13 @@ public class ArrayDeque<T> {
         tail = size - 1;
     }
 
-    public boolean isEmpty() { return size == 0; }
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
-    public int size() { return size; }
+    public int size() {
+        return size;
+    }
 
     private void resize() {
         capacity *= RFACTOR;
@@ -40,7 +45,9 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T value) {
-        if (size == capacity) { resize(); }
+        if (size == capacity) {
+            resize();
+        }
         head -= 1;
         if (head < 0) head = capacity - 1;
         data[head] = value;
@@ -48,7 +55,9 @@ public class ArrayDeque<T> {
     }
 
     public void addLast(T value) {
-        if (size == capacity) { resize(); }
+        if (size == capacity) {
+            resize();
+        }
         tail += 1;
         if (tail >= capacity) tail = 0;
         data[tail] = value;
@@ -60,23 +69,37 @@ public class ArrayDeque<T> {
         T value = data[head];
         data[head] = null;
         head += 1;
-        if (head >= capacity) head = 0;
+        if (head >= capacity) {
+            head = 0;
+        }
         size -= 1;
+        if (size >= 16 && size * LFACTOR < capacity) {
+            capacity /= RFACTOR;
+        }
         return value;
     }
 
     public T removeLast() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         T value = data[tail];
         data[tail] = null;
         tail -= 1;
-        if (tail < 0) tail = capacity - 1;
+        if (tail < 0) {
+            tail = capacity - 1;
+        }
         size -= 1;
+        if (size >= 16 && size * LFACTOR < capacity) {
+            capacity /= RFACTOR;
+        }
         return value;
     }
 
     public T get(int index) {
-        if (index < 0 || index >= size) return null;
+        if (index < 0 || index >= size) {
+            return null;
+        }
         return data[(head + index) % capacity];
     }
 
@@ -85,7 +108,9 @@ public class ArrayDeque<T> {
         for (int i = 0; i < size; i++) {
             System.out.print(data[cur] + " ");
             cur += 1;
-            if (cur >= capacity) cur = 0;
+            if (cur >= capacity) {
+                cur = 0;
+            }
         }
         System.out.println();
     }

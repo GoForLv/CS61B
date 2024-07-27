@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    public static class Node<T> {
+    private static class Node<T> {
         T val;
         Node<T> prev, next;
         public Node(T val) {
