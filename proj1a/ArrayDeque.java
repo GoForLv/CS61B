@@ -32,14 +32,14 @@ public class ArrayDeque<T> {
     }
 
     private void resize(int newCapacity) {
-        capacity = newCapacity;
-        T[] newData = (T[]) new Object[capacity];
+        T[] newData = (T[]) new Object[newCapacity];
         for (int i = 0 ; i < size ; i++) {
             newData[i] = get(i);
         }
         data = newData;
         head = 0;
         tail = size;
+        capacity = newCapacity;
     }
 
     public void addFirst(T value) {
@@ -98,5 +98,17 @@ public class ArrayDeque<T> {
             System.out.print(get(i) + " ");
         }
         System.out.println();
+    }
+
+    public static void main(String[] args) {
+        ArrayDeque<Integer> deque = new ArrayDeque<>();
+        for (int i = 0; i < 100000; i++) {
+            deque.addLast(i);
+        }
+        System.out.println(deque.size());
+        for (int i = 0; i < 90000; i++) {
+            deque.removeFirst();
+        }
+        System.out.println(deque.size());
     }
 }
